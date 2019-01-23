@@ -1,5 +1,5 @@
 # import cv2
-# import numpy as np
+import numpy as np
 
 RGB = [
     [0, 0, 0],
@@ -21,26 +21,12 @@ RGB = [
 ]
 
 HSV = []
-# img = cv2.imread['emoji.png']
 for color in RGB:
-    r = color[0]/255.0
-    g = color[1]/255.0
-    b = color[2]/255.0
-    M = max(r, g, b)
-    m = min(r, g, b)
-    c = M-m
-    v = M
-    if r == g and r == b:
-        h = 0
-        s = 0
-        HSV.append([h, s, v])
-        continue
-    s = c/M
-    if M == r:
-        h = (60 * ((g-b)/c) + 6)
-    elif M == g:
-        h = (60 * ((b-r)/c) + 2)
-    else:
-        h = (60 * ((r-g)/c) + 4)
-    HSV.append([h, s, v])
+    with color[0] as r, color[1] as g, color[2] as b:
+        if r == g and r == b:
+            v = max(r, g, b)
+            h = 0
+        else:
+            v = max(r, g, b)
+            h = np.arctan2((np.sqrt(3)*(g-b))/(2*r-g-b))
 print(HSV)
